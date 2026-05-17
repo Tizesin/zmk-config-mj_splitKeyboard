@@ -1,5 +1,17 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
+// ============================================================
+// nice!nano v2 핀 매핑 참고:
+//   Arduino D# -> GPIO 변환표
+//   D0  = P0.08  D1  = P0.06  D2  = P0.17  D3  = P0.20
+//   D4  = P0.22  D5  = P0.24  D6  = P1.00  D7  = P0.11
+//   D8  = P1.04  D9  = P1.06  D10 = P0.09  D14 = P1.11
+//   D15 = P1.13  D16 = P0.10  D18 = P1.15  D19 = P0.02
+//   D20 = P0.29  D21 = P0.31
+// UART TX = D1 = P0.06 (고정, 변경 불가)
+// UART RX = D0 = P0.08 (고정, 변경 불가)
+// ============================================================
+
 &uart0 {
     status = "okay";
 };
@@ -19,22 +31,26 @@
         label = "KSCAN";
         diode-direction = "col2row";
 
+        // [수정 필요 여부 확인] 회로도에서 Row 핀을 연결한 D번호와 아래 매핑이 일치하는지 확인하세요.
+        // 순서: 회로도 위에서부터 Row 0, Row 1, ... 순서대로 나열해야 합니다.
         row-gpios
-            = <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 0
-            , <&gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 1
-            , <&gpio0 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 2
-            , <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 3
-            , <&gpio0 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 4
-            , <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> ; // Row 5
+            = <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // [수정 필요] Row 0 = D20 = P0.29  → 회로도와 다르면 D번호 교체
+            , <&gpio0  2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // [수정 필요] Row 1 = D19 = P0.02  → 회로도와 다르면 D번호 교체
+            , <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // [수정 필요] Row 2 = D18 = P1.15  → 회로도와 다르면 D번호 교체
+            , <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // [수정 필요] Row 3 = D15 = P1.13  → 회로도와 다르면 D번호 교체
+            , <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // [수정 필요] Row 4 = D14 = P1.11  → 회로도와 다르면 D번호 교체
+            , <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; // [수정 필요] Row 5 = D21 = P0.31  → 회로도와 다르면 D번호 교체
 
+        // [수정 필요 여부 확인] 회로도에서 Col 핀을 연결한 D번호와 아래 매핑이 일치하는지 확인하세요.
+        // 순서: 회로도 왼쪽에서부터 Col 0, Col 1, ... 순서대로 나열해야 합니다.
         col-gpios
-            = <&gpio0 14 GPIO_ACTIVE_HIGH> // Col 0
-            , <&gpio0 13 GPIO_ACTIVE_HIGH> // Col 1
-            , <&gpio1 7  GPIO_ACTIVE_HIGH> // Col 2 (P1.07)
-            , <&gpio1 2  GPIO_ACTIVE_HIGH> // Col 3 (P1.02)
-            , <&gpio1 1  GPIO_ACTIVE_HIGH> // Col 4 (P1.01)
-            , <&gpio0 12 GPIO_ACTIVE_HIGH> // Col 5
-            , <&gpio0 11 GPIO_ACTIVE_HIGH> // Col 6
-            , <&gpio0 9  GPIO_ACTIVE_HIGH> ; // Col 7
+            = <&gpio0 10 GPIO_ACTIVE_HIGH>  // [수정 필요] Col 0 = D16 = P0.10  → 회로도와 다르면 D번호 교체
+            , <&gpio0  9 GPIO_ACTIVE_HIGH>  // [수정 필요] Col 1 = D10 = P0.09  → 회로도와 다르면 D번호 교체
+            , <&gpio1  6 GPIO_ACTIVE_HIGH>  // [수정 필요] Col 2 = D9  = P1.06  → 회로도와 다르면 D번호 교체
+            , <&gpio1  4 GPIO_ACTIVE_HIGH>  // [수정 필요] Col 3 = D8  = P1.04  → 회로도와 다르면 D번호 교체
+            , <&gpio0 11 GPIO_ACTIVE_HIGH>  // [수정 필요] Col 4 = D7  = P0.11  → 회로도와 다르면 D번호 교체
+            , <&gpio1  0 GPIO_ACTIVE_HIGH>  // [수정 필요] Col 5 = D6  = P1.00  → 회로도와 다르면 D번호 교체
+            , <&gpio0 22 GPIO_ACTIVE_HIGH>  // [수정 필요] Col 6 = D4  = P0.22  → 회로도와 다르면 D번호 교체
+            , <&gpio0 24 GPIO_ACTIVE_HIGH>; // [수정 필요] Col 7 = D5  = P0.24  → 회로도와 다르면 D번호 교체
     };
 };
