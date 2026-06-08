@@ -1,26 +1,28 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
+// ============================================================
+// 오른쪽 핀 매핑 (확정):
+//   Row 6  = P0.20 / Row 7  = P0.22 / Row 8  = P0.24
+//   Row 9  = P1.00 / Row 10 = P1.04 / Row 11 = P1.06
+//   Col 8  = P0.31 / Col 9  = P0.29 / Col 10 = P0.02
+//   Col 11 = P1.15 / Col 12 = P1.13 / Col 13 = P1.11
+//   Col 14 = P0.10 / Col 15 = P0.09 / Col 16 = P1.07
+//   Col 17 = P1.02 / Col 18 = P1.01
+//   UART TX = P0.06 (고정) / UART RX = P0.08 (고정)
+// ============================================================
+
+&uart0 {
+    status = "okay";
+};
+
 / {
-    chosen {
-        zmk,kscan = &kscan0;
-        zmk,matrix_transform = &default_transform;
+    wired_split: wired_split {
+        compatible = "zmk,wired-split";
+        device = <&uart0>;
     };
 
-    // 슬레이브 관점에서의 0번 인덱스부터 시작하도록 변환 처리
-    default_transform: keymap_transform {
-        compatible = "zmk,matrix-transform";
-        columns = <11>;
-        rows = <6>;
-        col-offset = <8>; // 마스터 기준 8번째 열부터 이어지도록 지정
-
-        map = <
-RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5) RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10)
-RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5) RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10)
-RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10)
-RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(3,6) RC(3,7) RC(3,8) RC(3,9) RC(3,10)
-RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7) RC(4,8) RC(4,9) RC(4,10)
-RC(5,0) RC(5,1) RC(5,2) RC(5,3) RC(5,4) RC(5,5) RC(5,6) RC(5,7) RC(5,8) RC(5,9) RC(5,10)
-        >;
+    chosen {
+        zmk,kscan = &kscan0;
     };
 
     kscan0: kscan {
@@ -28,42 +30,25 @@ RC(5,0) RC(5,1) RC(5,2) RC(5,3) RC(5,4) RC(5,5) RC(5,6) RC(5,7) RC(5,8) RC(5,9) 
         label = "KSCAN";
         diode-direction = "col2row";
 
-        // 회로도 상의 Row 6~11번에 매칭된 실제 핀들
         row-gpios
-            = <&gpio0 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+            = <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Row 6  = P0.20
+            , <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Row 7  = P0.22
+            , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Row 8  = P0.24
+            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Row 9  = P1.00
+            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Row 10 = P1.04
+            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; // Row 11 = P1.06
 
-        // 회로도 상의 Col 8~18번에 매칭된 실제 핀들
         col-gpios
-            = <&gpio0 20 GPIO_ACTIVE_HIGH>
-            , <&gpio0 19 GPIO_ACTIVE_HIGH>
-            , <&gpio0 18 GPIO_ACTIVE_HIGH>
-            , <&gpio0 17 GPIO_ACTIVE_HIGH>
-            , <&gpio0 16 GPIO_ACTIVE_HIGH>
-            , <&gpio0 15 GPIO_ACTIVE_HIGH>
-            , <&gpio0 14 GPIO_ACTIVE_HIGH>
-            , <&gpio0 13 GPIO_ACTIVE_HIGH>
-            , <&gpio1 7  GPIO_ACTIVE_HIGH>
-            , <&gpio1 2  GPIO_ACTIVE_HIGH>
-            , <&gpio1 1  GPIO_ACTIVE_HIGH>;
-    };
-};
-
-&uart0 {
-    status = "okay";
-    current-speed = <115200>;
-    pinctrl-0 = <&uart0_default>;
-    pinctrl-names = "default";
-};
-
-&pinctrl {
-    uart0_default: uart0_default {
-        group1 {
-            psels = <ZMK_PSEL(UART_TX, 0, 6)>;
-        };
+            = <&gpio0 31 GPIO_ACTIVE_HIGH>  // Col 8  = P0.31
+            , <&gpio0 29 GPIO_ACTIVE_HIGH>  // Col 9  = P0.29
+            , <&gpio0  2 GPIO_ACTIVE_HIGH>  // Col 10 = P0.02
+            , <&gpio1 15 GPIO_ACTIVE_HIGH>  // Col 11 = P1.15
+            , <&gpio1 13 GPIO_ACTIVE_HIGH>  // Col 12 = P1.13
+            , <&gpio1 11 GPIO_ACTIVE_HIGH>  // Col 13 = P1.11
+            , <&gpio0 10 GPIO_ACTIVE_HIGH>  // Col 14 = P0.10
+            , <&gpio0  9 GPIO_ACTIVE_HIGH>  // Col 15 = P0.09
+            , <&gpio1  7 GPIO_ACTIVE_HIGH>  // Col 16 = P1.07
+            , <&gpio1  2 GPIO_ACTIVE_HIGH>  // Col 17 = P1.02
+            , <&gpio1  1 GPIO_ACTIVE_HIGH>; // Col 18 = P1.01
     };
 };
