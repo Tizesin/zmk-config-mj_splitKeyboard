@@ -14,10 +14,3 @@ config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 endif
-
-if SHIELD_SPLIT_KEYBOARD_RIGHT
-
-config ZMK_SPLIT_ROLE_PERIPHERAL
-    default y
-
-endif
