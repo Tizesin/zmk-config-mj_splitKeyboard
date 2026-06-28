@@ -26,7 +26,7 @@
 /* Row 8  */ &kp Y     &kp U    &kp I    &kp O    &kp P     &kp LBKT &kp RBKT &kp BSLH &kp DEL   &kp END   &kp PG_DN
 /* Row 9  */ &kp H     &kp J    &kp K    &kp L    &kp SEMI  &kp SQT  &none    &kp ENTER &none    &none     &none
 /* Row 10 */ &kp B     &kp N    &kp M    &kp COMMA &kp DOT  &kp FSLH &none    &kp RSHFT &none    &kp UP    &none
-/* Row 11 */ &kp SPACE &none    &kp RALT &mo 1    &kp K_APP &kp RCTRL &kp LEFT &kp DOWN &kp RIGHT &none    &none
+/* Row 11 */ &none     &none    &kp SPACE &none    &kp RALT  &mo 1    &kp K_APP &kp RCTRL &kp LEFT &kp DOWN &kp RIGHT
             >;
         };
 
@@ -49,7 +49,7 @@
 /* Row 8  */ &trans &trans &trans &trans &trans &trans &trans  &trans    &trans    &trans    &trans
 /* Row 9  */ &trans &trans &trans &trans &trans &trans &none   &trans    &none     &none     &none
 /* Row 10 */ &trans &trans &trans &trans &trans &trans &none   &trans    &none     &trans    &none
-/* Row 11 */ &trans &none  &trans &trans &trans &trans &kp PG_UP &kp PG_DN &kp END &none   &none
+/* Row 11 */ &none  &none  &trans &none  &trans &trans &trans  &trans    &kp PG_UP &kp PG_DN &kp END
             >;
         };
     };
